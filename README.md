@@ -33,6 +33,11 @@ sudo apt update
 sudo apt install -y libbpf-dev
 ```
 
+3. Clone:
+```bash
+git clone --recursive https://github.com/zijianqin/whiptail_zijian_watermark_demo.git
+```
+
 ### Overall
 #### Option1, no packet drop:
 Run test.sh. It does everything including hooking the xdp and eBPF program, initializing maps, and starting the tcp server. This uses `xdp_tcp_msq_seq.c`, so we should not observe any packet drop. After the TCP server is started, please start your client process.
