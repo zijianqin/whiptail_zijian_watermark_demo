@@ -19,9 +19,9 @@ all: tcp_server packet_drop_fifo
 #    - Needs -pthread
 #    - Does NOT need libbpf
 # ===========================================================================
-tcp_server: tcp_server_v1.c
+tcp_server: tcp_server_v2.c
 	@echo "  CC      tcp_server"
-	$(CC) -O2 -Wall -pthread tcp_server_v1.c -o tcp_server
+	$(CC) -O2 -Wall -pthread tcp_server_v2.c -o tcp_server
 
 
 # ===========================================================================

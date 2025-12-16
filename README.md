@@ -6,8 +6,11 @@ This is an xdp program that hooks to the NIC interface. It appends a unique and 
 ### xdp_tcp_msq_seq_damage.c
 This is also an xdp program that hooks to the NIC interface. It has the same functionality as `xdp_tcp_msq_seq.c` except that this program damages the packet header with seq%10==0. So, if we use this program, we should observe packet drops. 
 
-### tcp_server.c
+### tcp_server_v2.c
 This is a simple TCP server program. It maintains a global frontline for all clients. The frontline is advanced only if we receive a continuous sequence of packets or we detect packet drops in that sequence. This server listens to a FIFO message queue from `packet_drop_fifo.c`, which calls an eBPF program to detect packet drops in the kernel. 
+
+### client.py
+This is a simple TCP client program.
 
 ### packet_drop_fifo.c
 This program calls the eBPF program `packet_drop.bpf.c` which detects packet drops in the kernel. This program feeds the dropping information to a FIFO message queue from which the TCP server can read.
@@ -44,3 +47,6 @@ Run test.sh. It does everything including hooking the xdp and eBPF program, init
 
 #### Option2, packet drop: 
 Run test_drop.sh. This uses `xdp_tcp_msq_seq_damage.c`, so we should observe packet drops. After the TCP server is started, please start your client process.
+
+### TCP Packet format:
+The first 8 bytes of the packet payload is reserved for sequence number. The xdp program will those bytes. 
